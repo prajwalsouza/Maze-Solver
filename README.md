@@ -5,4 +5,4 @@ The Shortest Path Algorithm takes longer, infact 10 times longer than Minimal Tr
 But, 
 The Dead Ending filling part of the algorithm may not work for all mazes. 
 
-![Input Image](/relative/Images/InputImageCompressed.jpg?raw=true "Input Image")
+![Input Image](https://github.com/prajwalsouza/Maze-Solver/blob/master/Images/InputImageCompressed.jpg)
