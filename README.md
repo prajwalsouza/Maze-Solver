@@ -43,6 +43,6 @@ For more details on how the algorithm proceeds refer the comments in the program
   
 Thank you.  
   
-[Prajwal DSouza](https://github.com/prajwalsouza)  
+[Prajwal DSouza](prajwalsouza.github.io)  
 3rd July 2017
 
