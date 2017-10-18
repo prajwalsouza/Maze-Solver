@@ -1,4 +1,6 @@
 # Maze Solver
+Solves Mazes taking an image input, along with the starting and ending points.
+
 There are two Algorithms here which solve mazes. One of them is a Shortest Path Algorithm, the other, Minimal Tree Algorithm along with dead end filling. Both written in Python. 
 
 The Shortest Path Algorithm takes longer, infact 10 times longer than Minimal Tree - Dead Ending Filling Algorithm.
