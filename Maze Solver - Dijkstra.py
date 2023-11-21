@@ -51,21 +51,20 @@ print("")
 
 
 try:
-            os.stat("AlgorithmData")
+	os.stat("AlgorithmData")
 except:
 	os.mkdir("AlgorithmData")
 
 base = os.path.basename(filename)
-
 shortfilename = "Image Name - " + os.path.splitext(base)[0]
 
 try:
-            os.stat("AlgorithmData/" + shortfilename)
+	os.stat("AlgorithmData/" + shortfilename)
 except:
 	os.mkdir("AlgorithmData/" + shortfilename)
 
 try:
-            os.stat("AlgorithmData/" + shortfilename + "/Info")
+	os.stat("AlgorithmData/" + shortfilename + "/Info")
 except:
 	os.mkdir("AlgorithmData/" + shortfilename + "/Info")
 
@@ -73,9 +72,6 @@ except:
 from shutil import copyfile
 copyfile(filename, "AlgorithmData/" + shortfilename + "/InputImage" + os.path.splitext(base)[1])
 # Create Image Directory and all the necessary folders. 
-
-
-
 
 # Load an color image in grayscale
 img = cv2.imread(filename,0)
@@ -93,21 +89,17 @@ print("Height of the Image : %d " % height)
 # Displaying the Height and width of the image. 
 
 
-
-def Draw(image,brushsize,location,choice,color):
+def Draw(image, brushsize, location, choice, color):
 	ycor = location[0]
 	xcor = location[1]
-	for ky in range(ycor-brushsize,ycor+brushsize):
-		for kx in range(xcor-brushsize,xcor+brushsize):
+	for ky in range(ycor-brushsize, ycor+brushsize):
+		for kx in range(xcor-brushsize, xcor+brushsize):
 			if color != [0,140,255]:
 				if ky < height and ky > 0 and kx < width and kx > 0 and copyimg[ky,kx] > 200:
 					image[ky,kx] = color
 			else:
 				if ky < height and ky > 0 and kx < width and kx > 0:
 					image[ky,kx] = color
-
-# The Draw function, puts a point on the image with a given brush size. 
-
 def checkConnectedness(point1,point2,gap,type):
 	Connected = 1
 	if type == 'East':
@@ -115,13 +107,11 @@ def checkConnectedness(point1,point2,gap,type):
 			if copyimg[point1[0],x] < 200:
 				Connected = 0
 				return Connected
-				break
 	if type == 'South':
 		for y in range(point1[0],point2[0]):
 			if copyimg[y,point1[1]] < 200:
 				Connected = 0
 				return Connected
-				break
 	if type == 'SouthEast':
 		diagonaltrack = 0
 		for x in range(point1[1],point2[1]):
@@ -129,7 +119,6 @@ def checkConnectedness(point1,point2,gap,type):
 			if copyimg[point1[0]+diagonaltrack,x] < 200:
 				Connected = 0
 				return Connected
-				break
 	if type == 'NorthEast':
 		diagonaltrack = 0
 		for x in range(point1[1],point2[1]):
@@ -137,14 +126,7 @@ def checkConnectedness(point1,point2,gap,type):
 			if copyimg[point1[0]+diagonaltrack,x] < 200:
 				Connected = 0
 				return Connected
-				break
-
 	return Connected
-
-
-# There are 4 types of connectors possible. East, South, (Non Diagonal), and SouthEast, NorthEast, (Diagonals)
-# This checks if two points in the algorithm can be connected by a line. 
-# They cannot be connected of there is a black obstacle such as a maze wall in between them.
 
 def DrawLine(point1,point2,gap,type,color,reverse):
 	if reverse == 0:
@@ -152,20 +134,16 @@ def DrawLine(point1,point2,gap,type,color,reverse):
 			for x in range(point1[1],point2[1]):
 				newcolor = color
 				Draw(incolorimg,1,(point1[0],x),1,newcolor)
-
-
 		if type == 'South':
 			for y in range(point1[0],point2[0]):
 				newcolor = color
 				Draw(incolorimg,1,(y,point1[1]),1,newcolor)
-
 		if type == 'SouthEast':
 			diagonaltrack = 0
 			for x in range(point1[1],point2[1]):
 				diagonaltrack = diagonaltrack + 1
 				newcolor = color
 				Draw(incolorimg,1,(point1[0]+diagonaltrack,x),1,newcolor)
-
 		if type == 'NorthEast':
 			diagonaltrack = 0
 			for x in range(point1[1],point2[1]):
@@ -177,19 +155,16 @@ def DrawLine(point1,point2,gap,type,color,reverse):
 			for x in range(point2[1],point1[1]):
 				newcolor = color
 				Draw(incolorimg,1,(point2[0],x),1,newcolor)
-
 		if type == 'South':
 			for y in range(point2[0],point1[0]):
 				newcolor = color
 				Draw(incolorimg,1,(y,point2[1]),1,newcolor)
-
 		if type == 'SouthEast':
 			diagonaltrack = 0
 			for x in range(point2[1],point1[1]):
 				diagonaltrack = diagonaltrack + 1
 				newcolor = color
 				Draw(incolorimg,1,(point2[0]+diagonaltrack,x),1,newcolor)
-
 		if type == 'NorthEast':
 			diagonaltrack = 0
 			for x in range(point2[1],point1[1]):
@@ -197,12 +172,7 @@ def DrawLine(point1,point2,gap,type,color,reverse):
 				newcolor = color
 				Draw(incolorimg,1,(point2[0]+diagonaltrack,x),1,newcolor)
 
-
-
-
 # This draws lines between points, 8 types of lines to be precise.
-
-
 Connectors = []
 
 for y in range(2*pointdistance,height-pointdistance,pointdistance):
@@ -213,22 +183,14 @@ for y in range(2*pointdistance,height-pointdistance,pointdistance):
 		if copyimg[y,x] > 200:
 			Connectors.append([ (y,x), (y,x+k), (y+k,x+k), (y+k,x), (y-k,x+k)])
 
-# This check for all the possible connections for the points and its immediate neighbours. 
-
 cv2.namedWindow('image',cv2.WINDOW_NORMAL)
 cv2.resizeWindow('image', 1000,800)
 cv2.imshow('image',incolorimg)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
-# Displaying the Image with all the points marked. 
-# We need to make sure that the points arent spaced too far. they must be comparable to the maze path gap, or lesser. But, not too less for this particular algorithm.
-
-
 Draw(incolorimg,3,endingposition,1,[0,255,0])
 Draw(incolorimg,3,startingposition,1,[0,255,0])
-# Marks the Starting and Ending positions. 
-
 
 print("")
 print(" Starting Position ")
@@ -237,14 +199,10 @@ print(" Ending Position ")
 print(endingposition)
 print(" ")
 
-
-# This whole section displays the starting and ending positions. 
-
 cropY = startingposition[0] - 100
 cropYplusH =  startingposition[0] + 100
 cropX = startingposition[1] - 100
 cropXplusH = startingposition[1] + 100
-
 
 if startingposition[0] - 100 < 1:
 	cropY = 1
@@ -252,29 +210,23 @@ if startingposition[0] - 100 < 1:
 if startingposition[1] - 100 < 1:
 	cropX = 1
 
-
 if (startingposition[0] + 100) > (height - 1):
 	cropYplusH = height - 1
 
-
 if (startingposition[1] + 100) > (width - 1):
 	cropXplusH = width - 1
-
 
 crop_img = incolorimg[cropY:cropYplusH, cropX:cropXplusH] 
 cv2.namedWindow('cropped',cv2.WINDOW_NORMAL)
 cv2.resizeWindow('cropped', 800,800)
 cv2.imshow("cropped", crop_img)
 cv2.waitKey(0)
-# Displayed Starting position.
 cv2.destroyAllWindows()
-
 
 cropY = endingposition[0] - 100
 cropYplusH =  endingposition[0] + 100
 cropX = endingposition[1] - 100
 cropXplusH = endingposition[1] + 100
-
 
 if endingposition[0] - 100 < 1:
 	cropY = 1
@@ -282,26 +234,18 @@ if endingposition[0] - 100 < 1:
 if endingposition[1] - 100 < 1:
 	cropX = 1
 
-
 if (endingposition[0] + 100) > (height - 1):
 	cropYplusH = height - 1
 
-
 if (endingposition[1] + 100) > (width - 1):
 	cropXplusH = width - 1
-
-
 
 crop_img = incolorimg[cropY:cropYplusH, cropX:cropXplusH] 
 cv2.namedWindow('cropped',cv2.WINDOW_NORMAL)
 cv2.resizeWindow('cropped', 800,800)
 cv2.imshow("cropped", crop_img)
 cv2.waitKey(0)
-# Displayed Ending position. 
 cv2.destroyAllWindows()
-
-
-
 
 ConnectorInfo = []
 ConnectorInfoDict = {}
@@ -478,7 +422,6 @@ showevery = 50
 
 if totalpoints > 5000:
 	showevery = int(totalpoints / 100)
-
 while len(visitednodes) != len(allnodes):
 	c = c + 1
 	if c % showevery == 0:
@@ -492,18 +435,15 @@ while len(visitednodes) != len(allnodes):
 		TimeData.append(init)
 		IterData.append(c)
 		TimeSticks = 0
-	
- 	if TimeSticks == 1:
- 		TimeStick1 = time.time()
+	if TimeSticks == 1:
+		TimeStick1 = time.time()
 
- 	Draw(incolorimg,3,currentnode,1,[0,191,0])
+	Draw(incolorimg,3,currentnode,1,[0,191,0])
  	
+	UnvisitedNeighbours = []
+	Cost = []
 
- 	UnvisitedNeighbours = []
- 	Cost = []
-
-
- 	Npoint = (currentnode[0]-pointdistance,currentnode[1])
+	Npoint = (currentnode[0]-pointdistance,currentnode[1])
 	NWpoint = (currentnode[0]-pointdistance,currentnode[1]-pointdistance)
 	Wpoint = (currentnode[0],currentnode[1]-pointdistance)
 	SWpoint = (currentnode[0]+pointdistance,currentnode[1]-pointdistance)
@@ -518,13 +458,10 @@ while len(visitednodes) != len(allnodes):
 	if TimeSticks == 1:
 		TimeStick2 = time.time()
 
-
 	info = SurroundingData[currentnode]
 
 	if TimeSticks == 1:
 		TimeStick3 = time.time()
-
- 			
 	for i in range(1,9):
 		if TimeSticks == 1:
 			TimeStick4 = time.time()

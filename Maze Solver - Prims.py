@@ -36,10 +36,13 @@ startingposition = (startingposition[0] - (startingposition[0]%pointdistance),st
 endingposition = (endingposition[0] - (endingposition[0]%pointdistance),endingposition[1] - (endingposition[1]%pointdistance))
 # Starting and ending position is approximated to a point closest to the point that can be accessed by the algorithm. (based on point distance)
 
+# Tkinter in python 3.7
 
+from tkinter import Tk as ttk
+from tkinter import filedialog
 
-from Tkinter import Tk as ttk
-from tkFileDialog import askopenfilename as askfile
+askfile = filedialog.askopenfilename
+
 print(" Select the img file.")
 ttk().withdraw()  #Tkinter dialog box helps select the file
 filename = askfile() 
@@ -606,7 +609,7 @@ if Terminated == 0:
 	while currentposition != startingposition:
 		nextposition = NewNeighbours[currentposition][0]
 		NewNeighbours[nextposition].remove(currentposition)
-		cv2.line(solutioncolorimg,(currentposition[1],currentposition[0]),(nextposition[1],nextposition[0]),(0,140,255),pointdistance/2)
+		cv2.line(solutioncolorimg, (currentposition[1], currentposition[0]), (nextposition[1],nextposition[0]), (0,140,255), int(pointdistance/2))
 		currentposition = nextposition
 
 
